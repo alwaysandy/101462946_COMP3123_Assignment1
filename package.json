@@ -1,0 +1,14 @@
+{
+  "name": "comp3123-assignment1-101462946",
+  "version": "1.0.0",
+  "description": "COMP3123 Assignment 1",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\""
+  },
+  "author": "Andrew Sas",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongoose": "^8.19.1"
+  }
+}
