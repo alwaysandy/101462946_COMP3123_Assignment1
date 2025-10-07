@@ -4,8 +4,8 @@ const employeeRouter = require('./routes/EmployeeRoutes');
 const userRouter = require('./routes/UserRoutes');
 
 // TODO set up mongo atlas url
-const DB_URL = process.env.DB_URL || "";
-const PORT = process.env.PORT || 8081;
+const DB_URL = process.env.DB_CONNECTION_STRING
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 
@@ -24,7 +24,6 @@ mongoose.connect(DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
-    console.log("Successfully connected to the mongoDB Atlas database");
     app.listen(PORT, () => {
         console.log(`Server is now listening on port ${PORT}`);
     });
