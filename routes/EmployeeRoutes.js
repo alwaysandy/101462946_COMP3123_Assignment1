@@ -1,5 +1,6 @@
 const employeeModel = require("../models/EmployeesModel");
 const express = require('express');
+const {body, validationResult} = require('express-validator');
 const employeeRoutes = express.Router();
 
 employeeRoutes.get('/employees', async (req, res) => {
@@ -13,15 +14,46 @@ employeeRoutes.get('/employees', async (req, res) => {
     }
 });
 
-employeeRoutes.post('employees', (req, res) => {
-    if(!req.body.content) {
+employeeRoutes.post('/employees', [
+    body('first_name')
+        .trim().notEmpty().withMessage('Must include first name'),
+    body('last_name')
+        .trim().notEmpty().withMessage('Must include last name'),
+    body('email')
+        .trim().notEmpty().withMessage('Must include email').bail()
+        .isEmail().withMessage('Invalid email address'),
+    body('position')
+        .trim().notEmpty().withMessage('Must include position'),
+    body('salary')
+        .notEmpty().withMessage('Must include salary').bail()
+        .isNumeric().withMessage('Salary must be a number').bail()
+        .isInt({min: 0}).withMessage('Salary must be positive'),
+    body('date_of_joining')
+        .isISO8601().toDate().withMessage('Date of joining must be a date'),
+    body('department')
+        .trim().notEmpty().withMessage('Must include department')
+], async (req, res) => {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
         return res.status(400).send({
-            message: "Employee creation content can not be empty"
+            status: false,
+            errors: result.array().map(error => error.msg)
         });
     }
 
-    // TODO - Handle Employee Creation 
-    return res.sendStatus(404);
+    const employee = new employeeModel(req.body);
+    try {
+        const newEmployee = await employee.save();
+        return res.status(201).send({
+            message: "Employee created successfully",
+            employee_id: newEmployee._id
+        });
+    } catch (err) {
+        return res.status(500).send({
+            status: false,
+            message: err.message
+        });
+    }
 });
 
 employeeRoutes.get('employees/:employeeId', (req, res) => {
