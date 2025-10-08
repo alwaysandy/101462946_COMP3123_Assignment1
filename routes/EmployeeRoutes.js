@@ -2,9 +2,15 @@ const employeeModel = require("../models/EmployeesModel");
 const express = require('express');
 const employeeRoutes = express.Router();
 
-employeeRoutes.get('employees', (req, res) => {
-    // TODO - Send employees
-    return res.sendStatus(404);
+employeeRoutes.get('/employees', async (req, res) => {
+    try {
+        const employees = await employeeModel.find({});
+        return res.send(employees);
+    } catch (err) {
+        return res.status(400).send({
+            message: err.message
+        });
+    }
 });
 
 employeeRoutes.post('employees', (req, res) => {
