@@ -46,15 +46,42 @@ userRoutes.post('/signup', [
     }
 });
 
-userRoutes.post('login', (req, res) => {
-    if(!req.body.content) {
+userRoutes.post('/login', [
+    body('email')
+        .trim()
+        .notEmpty()
+        .isEmail(),
+    body('password')
+        .trim()
+        .notEmpty()
+], async (req, res) => {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
         return res.status(400).send({
-            message: "Login request can not be empty"
+            status: false,
+            message: "Invalid email or password"
         });
     }
 
-    return res.sendStatus(404);
-    // TODO - Handle Login
+    try {
+        const user = await userModel.findOne({email: req.body.email});
+        const isMatch = await user.comparePassword(req.body.password);
+        if (!isMatch) {
+            return res.status(400).send({
+                status: false,
+                message: "Invalid email or password"
+            });
+        }
+
+        return res.status(200).send({
+            message: "Login successful"
+        });
+    } catch (err) {
+        return res.status(500).send({
+            status: false,
+            message: err
+        });
+    }
 });
 
 module.exports = userRoutes;
