@@ -1,6 +1,6 @@
 const employeeModel = require("../models/EmployeesModel");
 const express = require('express');
-const {body, param, validationResult} = require('express-validator');
+const {body, query, param, validationResult} = require('express-validator');
 const employeeRoutes = express.Router();
 
 employeeRoutes.get('/employees', async (req, res) => {
@@ -88,9 +88,27 @@ employeeRoutes.put('/employees/:employeeId', (req, res) => {
     return res.sendStatus(404);
 });
 
-employeeRoutes.delete('/employees', (req, res) => {
-    // TODO - Delete employee
-    return res.sendStatus(404);
+employeeRoutes.delete('/employees', 
+    query('eid')
+        .isMongoId().withMessage("Parameter must be valid MongoDB ID"), 
+    async (req, res) => {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+        return res.status(400).send({
+            message: result.array().map(error => error.msg)
+        });
+    }
+
+    try {
+        await employeeModel.findByIdAndDelete(req.query.eid)
+        return res.status(204).send({
+            message: "Employee deleted successfully."
+        });
+    } catch (err) {
+        return res.status(500).send({
+            message: err.message
+        })
+    }
 });
 
 module.exports = employeeRoutes;
