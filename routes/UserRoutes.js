@@ -27,7 +27,7 @@ userRoutes.post('/signup', [
     if (!result.isEmpty()) {
         return res.status(400).send({
             status: false,
-            message: result.array()
+            message: result.array().map(error => error.msg)
         });
     }
 
