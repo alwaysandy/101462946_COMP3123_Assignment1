@@ -1,6 +1,6 @@
 const employeeModel = require("../models/EmployeesModel");
 const express = require('express');
-const {body, validationResult} = require('express-validator');
+const {body, param, validationResult} = require('express-validator');
 const employeeRoutes = express.Router();
 
 employeeRoutes.get('/employees', async (req, res) => {
@@ -51,15 +51,31 @@ employeeRoutes.post('/employees', [
         });
     } catch (err) {
         return res.status(500).send({
-            status: false,
             message: err.message
         });
     }
 });
 
-employeeRoutes.get('/employees/:employeeId', (req, res) => {
-    // TODO - Send employee by id
-    return res.sendStatus(404);
+employeeRoutes.get('/employees/:employeeId', 
+    param('employeeId')
+        .isMongoId()
+        .withMessage("Parameter must be valid MongoDB ID"), 
+    async (req, res) => {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+        return res.status(400).send({
+            message: result.array().map(error => error.msg)
+        });
+    }
+
+    try {
+        const employee = await employeeModel.findById(req.params.employeeId)
+        return res.send(employee);
+    } catch (err) {
+        return res.status(500).send({
+            message: err.message
+        })
+    }
 });
 
 employeeRoutes.put('/employees/:employeeId', (req, res) => {
