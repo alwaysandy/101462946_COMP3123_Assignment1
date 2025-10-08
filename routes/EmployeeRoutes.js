@@ -86,14 +86,34 @@ employeeRoutes.get('/employees/:employeeId', mongoIdParamValidation(), async (re
     }
 });
 
-employeeRoutes.put('/employees/:employeeId', (req, res) => {
-    if(!req.body.content) {
+employeeRoutes.put('/employees/:employeeId', [
+    mongoIdParamValidation(),
+    firstNameValidation().optional(),
+    lastNameValidation().optional(),
+    emailValidation().optional(),
+    positionValidation().optional(),
+    salaryValidation().optional(),
+    dateOfJoiningValidation().optional(),
+    departmentValidation().optional()
+],
+async (req, res) => {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
         return res.status(400).send({
-            message: "Employee update content can not be empty"
+            message: result.array().map(error => error.msg)
         });
     }
-    // TODO - Allow updating employees
-    return res.sendStatus(404);
+
+    try {
+        await employeeModel.findByIdAndUpdate(req.params.employeeId, req.body)
+        return res.send({
+            message: "Employee details updated successful."
+        });
+    } catch (err) {
+        return res.status(500).send({
+            message: err.message
+        })
+    }
 });
 
 employeeRoutes.delete('/employees', 
