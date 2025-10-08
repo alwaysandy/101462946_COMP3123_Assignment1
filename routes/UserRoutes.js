@@ -41,7 +41,7 @@ userRoutes.post('/signup', [
     } catch (err) {
         return res.status(500).send({
             status: false,
-            message: err
+            message: err.message
         });
     }
 });
@@ -79,7 +79,7 @@ userRoutes.post('/login', [
     } catch (err) {
         return res.status(500).send({
             status: false,
-            message: err
+            message: err.message
         });
     }
 });
