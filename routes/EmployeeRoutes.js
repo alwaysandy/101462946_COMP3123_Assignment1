@@ -29,6 +29,7 @@ employeeRoutes.post('/employees', [
         .isNumeric().withMessage('Salary must be a number').bail()
         .isInt({min: 0}).withMessage('Salary must be positive'),
     body('date_of_joining')
+        .notEmpty().withMessage('Must include date of joining').bail()
         .isISO8601().toDate().withMessage('Date of joining must be a date'),
     body('department')
         .trim().notEmpty().withMessage('Must include department')
@@ -56,12 +57,12 @@ employeeRoutes.post('/employees', [
     }
 });
 
-employeeRoutes.get('employees/:employeeId', (req, res) => {
+employeeRoutes.get('/employees/:employeeId', (req, res) => {
     // TODO - Send employee by id
     return res.sendStatus(404);
 });
 
-employeeRoutes.put('employees/:employeeId', (req, res) => {
+employeeRoutes.put('/employees/:employeeId', (req, res) => {
     if(!req.body.content) {
         return res.status(400).send({
             message: "Employee update content can not be empty"
@@ -71,7 +72,7 @@ employeeRoutes.put('employees/:employeeId', (req, res) => {
     return res.sendStatus(404);
 });
 
-employeeRoutes.delete('employees', (req, res) => {
+employeeRoutes.delete('/employees', (req, res) => {
     // TODO - Delete employee
     return res.sendStatus(404);
 });
