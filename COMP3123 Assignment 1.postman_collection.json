@@ -1,0 +1,386 @@
+{
+	"info": {
+		"_postman_id": "26db308a-ab58-4638-a5a1-d3d72bb1c3a3",
+		"name": "COMP3123 Assignment 1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48676943",
+		"_collection_link": "https://alwaysandy-8064559.postman.co/workspace/COMP3095~d2f48735-29f4-444e-8f12-7ebd179bbd97/collection/48676943-26db308a-ab58-4638-a5a1-d3d72bb1c3a3?action=share&source=collection_link&creator=48676943"
+	},
+	"item": [
+		{
+			"name": "Failing Requests",
+			"item": [
+				{
+					"name": "Failing New User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"\",\n    \"email\": \"johndoe@example\",\n    \"password\": \"pass\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/v1/user/signup",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Failing User Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"johndoe@example.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/v1/user/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Failing Employee Creation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"\",\n    \"last_name\": \"\",\n    \"email\": \"\",\n    \"position\": \"   \",\n    \"salary\": -10,\n    \"date_of_joining\":\"\",\n    \"department\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/v1/emp/employees",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"emp",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Failing Update Employee",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"position\": \"\",\n    \"salary\": -10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/v1/emp/employees/68e91bfab8e2aeb6ea33cf91",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"emp",
+								"employees",
+								"68e91bfab8e2aeb6ea33cf91"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Failing Delete Employee",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/api/v1/emp/employees",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"emp",
+								"employees"
+							],
+							"query": [
+								{
+									"key": "eid",
+									"value": "68e91bfab8e2aeb6ea33cf91",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "New User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"johndoe\",\n    \"email\": \"johndoe@example.com\",\n    \"password\": \"password123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/api/v1/user/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"johndoe@example.com\",\n    \"password\": \"password123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/api/v1/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Employees",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/api/v1/emp/employees",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"emp",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Employee By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/api/v1/emp/employees/68e91bfab8e2aeb6ea33cf91",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"emp",
+						"employees",
+						"68e91bfab8e2aeb6ea33cf91"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Employee",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"Alice\",\n    \"last_name\": \"Johnson\",\n    \"email\": \"alice.johnson@example.com\",\n    \"position\": \"Designer\",\n    \"salary\": 85000,\n    \"date_of_joining\":\"2023-08-10T00:00:00.000Z\",\n    \"department\": \"Design\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/api/v1/emp/employees",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"emp",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Employee",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"position\": \"Senior Designer\",\n    \"salary\": 95000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/api/v1/emp/employees/68e91bfab8e2aeb6ea33cf91",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"emp",
+						"employees",
+						"68e91bfab8e2aeb6ea33cf91"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Employee",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/api/v1/emp/employees?eid=68e91bfab8e2aeb6ea33cf91",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"emp",
+						"employees"
+					],
+					"query": [
+						{
+							"key": "eid",
+							"value": "68e91bfab8e2aeb6ea33cf91"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Seeded User Test",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"testuser@gmail.com\",\n    \"password\": \"testpassword\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/api/v1/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
