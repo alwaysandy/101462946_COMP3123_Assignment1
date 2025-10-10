@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const employeeRouter = require('./routes/EmployeeRoutes');
 const userRouter = require('./routes/UserRoutes');
+const userModel = require('./models/UsersModel');
 
 // TODO set up mongo atlas url
 const DB_URL = process.env.DB_CONNECTION_STRING
@@ -23,7 +24,16 @@ app.get('/', (req, res) => {
 mongoose.connect(DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-}).then(() => {
+}).then(async () => {
+    const userSeed = {
+        email: "testuser@test.com",
+        username: "testuser",
+        password: "testpassword"
+    };
+
+    await userModel.deleteMany({email: "testuser@test.com"}).then(() => {
+        userModel.insertOne(userSeed);
+    }).catch(err => console.error("Error seeding database: " + err));
     app.listen(PORT, () => {
         console.log(`Server is now listening on port ${PORT}`);
     });
